@@ -1,0 +1,8 @@
+{
+  "exponentServerNgrokUrl": "https://g3-hau.oren.login.exp.direct",
+  "packagerNgrokUrl": "https://packager.g3-hau.oren.login.exp.direct",
+  "ngrokPid": 1867,
+  "exponentServerPort": 19001,
+  "packagerPort": 19003,
+  "packagerPid": 1809
+}

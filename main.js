@@ -1,51 +1,16 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
-  StyleSheet,
+  AppRegistry,
   Text,
   View,
-  Image,
 } from 'react-native';
 
-class App extends React.Component {
-   constructor(props) {
-    super(props)
-    this.state = {
-      language: 'english',
-    }
-  }
-
-  componentDidMount() {
-    this.setState({language: 'english'})
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          style={{width: 50, height: 50}}
-          source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
-        />
-        <Text>Register</Text>
-        <Text>Login</Text>
-        <Text>Logout</Text>
-        <Text>Forgot password</Text>
-        <Text>Delete account</Text>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-Exponent.registerRootComponent(App);
+/**
+ * If you're using Exponent, uncomment the line below to import Exponent
+ * BEFORE importing `@exponent/ex-navigation`. This sets the status bar
+ * offsets properly.
+ */
+import Exponent from 'exponent';
 
 import {
   createRouter,
@@ -59,5 +24,51 @@ import {
   * property defined on it, as in HomeScreen below
   */
 const Router = createRouter(() => ({
-  home: () => App,
+  home: () => HomeScreen,
 }));
+
+class App extends React.Component {
+  render() {
+    /**
+      * NavigationProvider is only needed at the top level of the app,
+      * similar to react-redux's Provider component. It passes down
+      * navigation objects and functions through context to children.
+      *
+      * StackNavigation represents a single stack of screens, you can
+      * think of a stack like a stack of playing cards, and each time
+      * you add a screen it slides in on top. Stacks can contain
+      * other stacks, for example if you have a tab bar, each of the
+      * tabs has its own individual stack. This is where the playing
+      * card analogy falls apart, but it's still useful when thinking
+      * of individual stacks.
+      */
+    return (
+      <NavigationProvider router={Router}>
+        <StackNavigation initialRoute={Router.getRoute('home')} />
+      </NavigationProvider>
+    );
+  }
+}
+
+class HomeScreen extends React.Component {
+  /**
+    * This is where we can define any route configuration for this
+    * screen. For example, in addition to the navigationBar title we
+    * could add backgroundColor.
+    */
+  static route = {
+    navigationBar: {
+      title: 'Home',
+    }
+  }
+
+  render() {
+    return (
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <Text>HomeScreen!</Text>
+      </View>
+    )
+  }
+}
+
+Exponent.registerComponent('main', () => App);
